@@ -22,6 +22,15 @@ gulp.task('minify', function() {
     .pipe(gulp.dest('build'))
 });
 
-gulp.task('default', function(){ 
-    console.log('it´s running!'); 
-});
+gulp.src([
+    'bower_components/jquery/dist/jquery.min.js'
+])
+.pipe(gulp.dest('build/scripts'));
+
+gulp.src([
+    'bower_components/bootstrap/dist/css/bootstrap.min.css'
+])
+.pipe(gulp.dest('build/styles'));
+
+
+gulp.task('default', ['minify','webserver']);
