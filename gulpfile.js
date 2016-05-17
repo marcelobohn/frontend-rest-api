@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var htmlmin = require('gulp-htmlmin');
+var sass = require('gulp-sass');
 var webserver = require('gulp-webserver');
 
 gulp.task('webserver', function() {
@@ -22,8 +23,15 @@ gulp.task('minify', function() {
     .pipe(gulp.dest('build'))
 });
 
+gulp.task('sass', function () {
+  gulp.src(['src/styles/*.scss'])
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(gulp.dest('build/styles/'));
+});
+
 gulp.src([
-    'bower_components/jquery/dist/jquery.min.js'
+    'bower_components/jquery/dist/jquery.min.js',
+    'bower_components/bootstrap/dist/js/bootstrap.min.js'
 ])
 .pipe(gulp.dest('build/scripts'));
 
@@ -33,4 +41,4 @@ gulp.src([
 .pipe(gulp.dest('build/styles'));
 
 
-gulp.task('default', ['minify','webserver']);
+gulp.task('default', ['minify','sass','webserver']);
