@@ -1,8 +1,12 @@
-var gulp = require('gulp');
-var jshint = require('gulp-jshint');
-var htmlmin = require('gulp-htmlmin');
-var sass = require('gulp-sass');
-var webserver = require('gulp-webserver');
+var gulp = require('gulp'),
+ jshint = require('gulp-jshint'),
+ htmlmin = require('gulp-htmlmin'),
+ sass = require('gulp-sass'),
+ concat = require('gulp-concat'),
+ rename = require('gulp-rename'),
+ uglify = require('gulp-uglify'),
+ notify = require('gulp-notify'),
+ webserver = require('gulp-webserver');
 
 gulp.task('webserver', function() {
   gulp.src('build')
@@ -29,6 +33,23 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('build/styles/'));
 });
 
+gulp.task('fonts', function () {
+  gulp.src(['bower_components/bootstrap/dist/fonts/*.*'])
+    .pipe(gulp.dest('build/fonts/'));
+});
+
+gulp.task('scripts', function() {
+  return gulp.src('src/scripts/**/*.js')
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('default'))
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest('build/scripts'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(uglify())
+    .pipe(gulp.dest('build/scripts'))
+    .pipe(notify({ message: 'Scripts task complete' }));
+});
+
 gulp.src([
     'bower_components/jquery/dist/jquery.min.js',
     'bower_components/bootstrap/dist/js/bootstrap.min.js'
@@ -41,4 +62,4 @@ gulp.src([
 .pipe(gulp.dest('build/styles'));
 
 
-gulp.task('default', ['minify','sass','webserver']);
+gulp.task('default', ['minify','sass','fonts','scripts','webserver']);
