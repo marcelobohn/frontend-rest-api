@@ -6,6 +6,7 @@ var gulp = require('gulp'),
  rename = require('gulp-rename'),
  uglify = require('gulp-uglify'),
  notify = require('gulp-notify'),
+ wrap = require('gulp-wrap'),
  webserver = require('gulp-webserver');
 
 gulp.task('webserver', function() {
@@ -22,10 +23,17 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('minify', function() {
-  return gulp.src('src/*.html')
+  return gulp.src(['src/*.html','!src/layout.html'])
+    .pipe(wrap({src: 'src/layout.html'}))
     .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest('build'))
 });
+
+// gulp.task('layout', function () {
+//   return gulp.src(['src/**/*.html', '!src/layout.html'])
+//     .pipe(wrap({src: 'src/layout.html'}))
+//     .pipe(gulp.dest('build'));
+// });
 
 gulp.task('sass', function () {
   gulp.src(['src/styles/*.scss'])
@@ -60,6 +68,5 @@ gulp.src([
     'bower_components/bootstrap/dist/css/bootstrap.min.css'
 ])
 .pipe(gulp.dest('build/styles'));
-
 
 gulp.task('default', ['minify','sass','fonts','scripts','webserver']);
