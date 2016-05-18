@@ -2,6 +2,12 @@
     "use strict";
 })();
 
+function defineComponetEvents() {
+    $('#btnProducts').click(function(){
+		new Product().setListOnScrean('#content');
+    })	
+};
+
 $(document).ready(function() {
-	console.log('document ready');
+	defineComponetEvents();
 });

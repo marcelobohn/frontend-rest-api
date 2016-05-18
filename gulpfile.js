@@ -29,22 +29,12 @@ gulp.task('minify', function() {
     .pipe(gulp.dest('build'))
 });
 
-// gulp.task('layout', function () {
-//   return gulp.src(['src/**/*.html', '!src/layout.html'])
-//     .pipe(wrap({src: 'src/layout.html'}))
-//     .pipe(gulp.dest('build'));
-// });
-
 gulp.task('sass', function () {
   gulp.src(['src/styles/*.scss'])
     .pipe(sass({outputStyle: 'compressed'}))
     .pipe(gulp.dest('build/styles/'));
 });
 
-gulp.task('fonts', function () {
-  gulp.src(['bower_components/bootstrap/dist/fonts/*.*'])
-    .pipe(gulp.dest('build/fonts/'));
-});
 
 gulp.task('scripts', function() {
   return gulp.src('src/scripts/**/*.js')
@@ -68,5 +58,10 @@ gulp.src([
     'bower_components/bootstrap/dist/css/bootstrap.min.css'
 ])
 .pipe(gulp.dest('build/styles'));
+
+gulp.task('fonts', function () {
+  gulp.src(['bower_components/bootstrap/dist/fonts/*.*'])
+    .pipe(gulp.dest('build/fonts/'));
+});
 
 gulp.task('default', ['minify','sass','fonts','scripts','webserver']);
