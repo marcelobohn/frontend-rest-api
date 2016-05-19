@@ -3,9 +3,12 @@
 })();
 
 function defineComponetEvents() {
+    $('#btnHome').click(function(){
+		window.location.assign("index.html");
+    });
     $('#btnProducts').click(function(){
-		new Product().setListOnScrean('#content');
-    })	
+		window.location.assign("product.html");
+    });	   
 };
 
 $(document).ready(function() {

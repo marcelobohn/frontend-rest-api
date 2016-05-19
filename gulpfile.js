@@ -7,6 +7,7 @@ var gulp = require('gulp'),
  uglify = require('gulp-uglify'),
  notify = require('gulp-notify'),
  wrap = require('gulp-wrap'),
+ strip = require('gulp-strip-comments'),
  webserver = require('gulp-webserver');
 
 gulp.task('webserver', function() {
@@ -26,6 +27,7 @@ gulp.task('minify', function() {
   return gulp.src(['src/*.html','!src/layout.html'])
     .pipe(wrap({src: 'src/layout.html'}))
     .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(strip())
     .pipe(gulp.dest('build'))
 });
 
