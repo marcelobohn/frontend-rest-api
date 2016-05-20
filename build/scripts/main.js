@@ -136,7 +136,9 @@ Product.prototype.insert = function() {
 Product.prototype.edit = function(element) {
 	var id = $(element).parents('tr').data('id');
 	var editProduct = request('GET', config.productUrl+id, {});
-	fillForm(editProduct);
+	if (editProduct) {
+		fillForm(editProduct);
+	}
 };
 
 Product.prototype.save = function(data) {
