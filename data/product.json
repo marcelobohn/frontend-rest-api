@@ -2,10 +2,10 @@
   "product": [
     {
       "id": 1,
-      "nome": "banana",
+      "nome": "banana1",
       "valor": 1.25,
-      "status": "A",
-      "estoque": 20
+      "estoque": 20,
+      "status": "A"
     },
     {
       "id": 2,

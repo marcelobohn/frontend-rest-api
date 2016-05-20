@@ -1,3 +1,3 @@
 var config = {
-	"url": "http://localhost:3000/product/"
+	"productUrl": "http://localhost:3000/product/"
 }

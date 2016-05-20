@@ -38,44 +38,54 @@ function request(type, url, data) {
 
 function mountLine(product) {
 	var line = '<tr data-id="' + product.id + '">';
-	line += '<td>' + product.nome + '</td>';
-	line += '<td>' + product.valor + '</td>';
-	line += '<td>' + product.estoque + '</td>';
-	line += '<td><span class="glyphicon glyphicon-pencil clickable btnEdit" ></span></td>';
-	line += '<td><span class="glyphicon glyphicon-remove clickable btnDelete" ></span></td>';
+	line += '<td class="colNome">' + product.nome + '</td>';
+	line += '<td class="colValor">' + product.valor + '</td>';
+	line += '<td class="colEstoque">' + product.estoque + '</td>';
+	line += '<td><span class="glyphicon glyphicon-pencil clickable btnEdit"></span></td>';
+	line += '<td><span class="glyphicon glyphicon-remove clickable btnDelete"></span></td>';
 	line += '</tr>';
 	return line;
 };
 
 function mountDataForm(component) {
 	var form = $(component);
+	var id = form.data('id');
 	var nome = form.find('#nome').val();
 	var valor = form.find('#valor').val();
 	var estoque = form.find('#estoque').val();
-	return {"nome":nome, "valor":valor, "estoque": estoque, "status":"A"};	
+	return {"id":id, "nome":nome, "valor":valor, "estoque": estoque, "status":"A"};	
 }
 
 function setEventsTable() {
+    $('#btnNew').unbind( "click" );
     $('#btnNew').click(function(){
-    	new Product().new('#content');    	
+    	new Product().insert('#content');
     });
+    $('.btnEdit').unbind( "click" );
     $('.btnEdit').click(function(){
-    	console.log('edit');
+    	new Product().edit(this);
     });
+    $('.btnDelete').unbind( "click" );
     $('.btnDelete').click(function(){
-    	new Product().delete(this);
+		var r = confirm("Confirma deletar o registro?");
+		if (r === true) {    	
+	    	new Product().delete(this);
+	    }
     });    
 }
 
 function setEventsForm() {
 	$('#btnGravar').click(function(){
 		var data = mountDataForm('#form');
-		new Product().save(data);
-    	$('#form').hide();
+		var product = new Product().save(data);
+    	if (product) {
+			$('#form').hide();
+			$('#list').show();	
+    	}
     });
 	$('#btnCancel').click(function(){
-    	console.log('cancelou');
     	$('#form').hide();
+		$('#list').show();	
     });
 }
 
@@ -91,30 +101,72 @@ Product.prototype.setListOnScrean = function(component) {
 	if (products.length > 0) {
 		this.mountTable(component, products);
 	    setEventsTable();
+	    setEventsForm();
 	}
+	document.title = 'Products';
+	$('#btnHome').removeClass('active');
+	$('#btnProducts').parents('li').addClass('active');
 };
 
 Product.prototype.getList = function() {
-    return request('GET', 'http://localhost:3000/product/', {});
+    return request('GET', config.productUrl, {});
 };
 
-Product.prototype.new = function() {
+function fillForm(product) {
+	$('#form').data("id", (product) ? product.id : 0);
+	$('#form').find('#nome').val((product) ? product.nome : '');
+	$('#form').find('#valor').val((product) ? product.valor : '');
+	$('#form').find('#estoque').val((product) ? product.estoque : '');	
 	$('#form').show();
-	setEventsForm();
+	$('#list').hide();
+	$('#titleForm').html((product) ? 'Editando' : 'Inserindo');
+}
+
+function updateRow(product) {
+	var $row = $('tr[data-id="' + product.id + '"]');
+	$row.find('.colNome').html(product.nome);
+	$row.find('.colValor').html(product.valor);
+	$row.find('.colEstoque').html(product.estoque);
+}
+
+Product.prototype.insert = function() {
+	fillForm();	
+};
+
+Product.prototype.edit = function(element) {
+	var id = $(element).parents('tr').data('id');
+	var editProduct = request('GET', config.productUrl+id, {});
+	fillForm(editProduct);
 };
 
 Product.prototype.save = function(data) {
-	var newProduct = request('POST', 'http://localhost:3000/product/', data);
-	$("#tableProducts").find('tbody').append(mountLine(newProduct));
+	if (data.id > 0) {
+		var product = request('PUT', config.productUrl+data.id, data);
+		if (product) {
+			updateRow(product);
+			return product;
+		} else {
+			return false;
+		}
+	} else {
+		var product = request('POST', config.productUrl, data);
+		if (product) {
+			$("#tableProducts").find('tbody').append(mountLine(product));
+			setEventsTable();
+			return product;
+		} else {
+			return false;
+		}
+	}
 };
 
 Product.prototype.delete = function(element) {
 	var id = $(element).parents('tr').data('id');
-	var deleteProduct = request('DELETE', 'http://localhost:3000/product/'+id, {});
+	var deleteProduct = request('DELETE', config.productUrl+id, {});
 	if (deleteProduct) {
 		$(element).parents('tr').remove();
 	}
 };
 var config = {
-	"url": "http://localhost:3000/product/"
+	"productUrl": "http://localhost:3000/product/"
 }
