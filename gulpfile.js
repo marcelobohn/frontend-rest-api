@@ -57,7 +57,8 @@ gulp.src([
 .pipe(gulp.dest('build/scripts'));
 
 gulp.src([
-    'bower_components/bootstrap/dist/css/bootstrap.min.css'
+    'bower_components/bootstrap/dist/css/bootstrap.min.css',
+    'bower_components/bootstrap/dist/css/bootstrap.min.css.map'
 ])
 .pipe(gulp.dest('build/styles'));
 
