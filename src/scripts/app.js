@@ -1,16 +1,13 @@
-(function(){
-    "use strict";
-})();
-
 function defineComponetEvents() {
+    "use strict";
     $('#btnHome').click(function(){
-		window.location.assign("index.html");
+      window.location.assign("index.html");
     });
     $('#btnProducts').click(function(){
-		window.location.assign("product.html");
-    });	   
+      window.location.assign("product.html");
+    });    
 };
 
 $(document).ready(function() {
-	defineComponetEvents();
+  defineComponetEvents();
 });

@@ -2,37 +2,37 @@
 <div id="list">
     <button type="button" class="btn btn-primary" id="btnNew">Novo</button>
     <table class="table table-striped" id="tableProducts">
-    	<tbody>
-			<thead><tr><th>Nome</th><th>Valor</th><th>Estoque</th><th>Editar</th><th>Excluir</th></tr></thead>
-		</tbody>
-	</table>
+      <tbody>
+      <thead><tr><th>Nome</th><th>Valor</th><th>Estoque</th><th>Editar</th><th>Excluir</th></tr></thead>
+    </tbody>
+  </table>
 </div>
 
 <div id="form" style="display: none;">
-	<h3 id="titleForm"></h3>
-	<form class="form-horizontal" role="form">
-		<div class="form-group">
-			<label for="name" class="control-label col-sm-2">Nome:</label> 
-			<div class="col-sm-10"><input type="text" id="nome" class="form-control"></div>
-		</div>
-		<div class="form-group">
-			<label for="valor" class="control-label col-sm-2">Valor:</label> 
-			<div class="col-sm-10"><input type="text" id="valor" class="form-control"></div>
-		</div>
-		<div class="form-group">
-			<label for="estoque" class="control-label col-sm-2">Estoque:</label> 
-			<div class="col-sm-10"><input type="text" id="estoque" class="form-control"></div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="button" class="btn btn-success" id="btnGravar">Gravar</button>
-				<button type="button" class="btn btn-danger" id="btnCancel">Cancelar</button>
-			</div>
-		</div>
-	</form>
+  <h3 id="titleForm"></h3>
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label for="name" class="control-label col-sm-2">Nome:</label> 
+      <div class="col-sm-10"><input type="text" id="nome" class="form-control"></div>
+    </div>
+    <div class="form-group">
+      <label for="valor" class="control-label col-sm-2">Valor:</label> 
+      <div class="col-sm-10"><input type="text" id="valor" class="form-control"></div>
+    </div>
+    <div class="form-group">
+      <label for="estoque" class="control-label col-sm-2">Estoque:</label> 
+      <div class="col-sm-10"><input type="text" id="estoque" class="form-control"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="button" class="btn btn-success" id="btnGravar">Gravar</button>
+        <button type="button" class="btn btn-danger" id="btnCancel">Cancelar</button>
+      </div>
+    </div>
+  </form>
 </div>
 <script>
 $(document).ready(function() {
-	new Product().setListOnScrean('#tableProducts');
+  new Product().setListOnScrean('#tableProducts');
 });
 </script>

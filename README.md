@@ -1,7 +1,9 @@
 # frontend-rest-api
+Install node modules
+npm install
 
 start database server:
-bash start-srv-json.sh
+npm run serve
 
 compile and run local:
 gulp
